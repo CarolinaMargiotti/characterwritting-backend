@@ -1,4 +1,4 @@
-const { db, ref, set } = require("../database");
+const { db, ref, set, get } = require("../database");
 
 class Character {
 	constructor(id, name, color, age, image) {
@@ -11,7 +11,7 @@ class Character {
 
 	static fromSnapshot(snapshot) {
 		const data = snapshot.val();
-		return new User(
+		return new Character(
 			snapshot.key,
 			data.name,
 			data.color,
@@ -31,11 +31,11 @@ class Character {
 
 	static async getById(id) {
 		const characterRef = ref(db, `characters/${id}`);
-		const snapshot = await characterRef.once("value");
+		const snapshot = await get(characterRef);
 		if (!snapshot.exists()) {
 			throw new Error("Character not found");
 		}
-		return User.fromSnapshot(snapshot);
+		return Character.fromSnapshot(snapshot);
 	}
 
 	async save() {

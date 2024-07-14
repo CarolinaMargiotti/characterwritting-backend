@@ -14,8 +14,18 @@ class CharacterController {
 			await newCharacter.save();
 			res.status(200).json("salvo com sucesso");
 		} catch (error) {
-			console.log(error);
-			res.status(400).json({ error: error });
+			res.status(400).json({ error: error.message });
+		}
+	}
+
+	async getCharacter(req, res) {
+		let { id } = req.body;
+
+		try {
+			const character = await CharacterModel.getById(id);
+			res.status(200).json(character);
+		} catch (error) {
+			res.status(400).json({ error: error.message });
 		}
 	}
 }
