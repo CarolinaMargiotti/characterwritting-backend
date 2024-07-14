@@ -11,8 +11,8 @@ app.listen(PORT, () => {
 	console.log(`Open on: ${PORT}...`);
 });
 
-// app.use("/characterwritting", router);
+app.use("/characterwritting", router);
 
 app.use((req, res) => {
-	res.status(400).json({ error: ["URL desconhecida"] });
+	res.status(400).json({ error: ["Uknown URL"] });
 });
