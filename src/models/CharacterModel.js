@@ -1,4 +1,4 @@
-const { db, ref, set, get } = require("../database");
+const { db, ref, set, get, remove } = require("../database");
 
 class Character {
 	constructor(id, name, color, age, image) {
@@ -41,6 +41,11 @@ class Character {
 	async save() {
 		const characterRef = ref(db, `characters/${this.id}`);
 		await set(characterRef, this.toFirebaseObject());
+	}
+
+	static async deleteCharacter(id) {
+		const characterRef = ref(db, `characters/${id}`);
+		await remove(characterRef);
 	}
 }
 module.exports = Character;

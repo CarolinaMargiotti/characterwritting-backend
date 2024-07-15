@@ -1,6 +1,13 @@
 // Import the functions you need from the SDKs you need
 const { initializeApp } = require("firebase/app");
-const { getDatabase, ref, set, child, get } = require("firebase/database");
+const {
+	getDatabase,
+	ref,
+	set,
+	child,
+	get,
+	remove,
+} = require("firebase/database");
 const { getStorage } = require("firebase/storage");
 require("dotenv").config();
 
@@ -23,4 +30,4 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const storage = getStorage(app);
 
-module.exports = { db, storage, ref, set, child, get };
+module.exports = { db, storage, ref, set, child, get, remove };

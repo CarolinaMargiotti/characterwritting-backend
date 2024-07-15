@@ -28,6 +28,17 @@ class CharacterController {
 			res.status(400).json({ error: error.message });
 		}
 	}
+
+	async deleteCharacter(req, res) {
+		let { id } = req.body;
+
+		try {
+			await CharacterModel.deleteCharacter(id);
+			res.status(200).json("deleted successfuly");
+		} catch (error) {
+			res.status(400).json({ error: error.message });
+		}
+	}
 }
 
 module.exports = CharacterController;
