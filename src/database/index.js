@@ -7,6 +7,7 @@ const {
 	child,
 	get,
 	remove,
+	update,
 } = require("firebase/database");
 const { getStorage } = require("firebase/storage");
 require("dotenv").config();
@@ -30,4 +31,4 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const storage = getStorage(app);
 
-module.exports = { db, storage, ref, set, child, get, remove };
+module.exports = { db, storage, ref, set, child, get, remove, update };

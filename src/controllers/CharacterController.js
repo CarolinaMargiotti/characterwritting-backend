@@ -7,8 +7,8 @@ class CharacterController {
 			const newCharacter = new CharacterModel(
 				id,
 				name,
-				age,
 				color,
+				age,
 				image
 			);
 			await newCharacter.save();
@@ -35,6 +35,23 @@ class CharacterController {
 		try {
 			await CharacterModel.deleteCharacter(id);
 			res.status(200).json("deleted successfuly");
+		} catch (error) {
+			res.status(400).json({ error: error.message });
+		}
+	}
+
+	async updateCharacter(req, res) {
+		let { id, name, age, color, image } = req.body;
+		try {
+			const characterUpdated = new CharacterModel(
+				id,
+				name,
+				color,
+				age,
+				image
+			);
+			await characterUpdated.updateCharacter();
+			res.status(200).json("atualizado com sucesso");
 		} catch (error) {
 			res.status(400).json({ error: error.message });
 		}
