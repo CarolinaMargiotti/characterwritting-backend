@@ -38,6 +38,19 @@ class Character {
 		return Character.fromSnapshot(snapshot);
 	}
 
+	static async getAll() {
+		const charactersRef = ref(db, `characters`);
+		const snapshot = await get(charactersRef);
+		if (!snapshot.exists()) {
+			throw new Error("No characters found");
+		}
+		const characters = [];
+		snapshot.forEach((childSnapshot) => {
+			characters.push(Character.fromSnapshot(childSnapshot));
+		});
+		return characters;
+	}
+
 	static async deleteCharacter(id) {
 		const characterRef = ref(db, `characters/${id}`);
 		await remove(characterRef);

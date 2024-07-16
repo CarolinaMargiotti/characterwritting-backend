@@ -29,6 +29,15 @@ class CharacterController {
 		}
 	}
 
+	async getAll(req, res) {
+		try {
+			const characters = await CharacterModel.getAll();
+			res.status(200).json(characters);
+		} catch (error) {
+			res.status(400).json({ error: error.message });
+		}
+	}
+
 	async deleteCharacter(req, res) {
 		let { id } = req.body;
 
