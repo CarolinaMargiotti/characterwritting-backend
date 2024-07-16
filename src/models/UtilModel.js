@@ -12,7 +12,6 @@ async function initializeLastId() {
 
 async function updateId() {
 	this.lastId++;
-	console.log(this.lastId);
 	await set(lastIdRef, this.lastId);
 }
 
