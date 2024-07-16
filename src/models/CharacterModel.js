@@ -1,23 +1,18 @@
 const { db, ref, set, get, remove, update } = require("../database");
+const { getLastId, updateId } = require("./UtilModel");
 
 class Character {
-	constructor(id, name, color, age, image) {
+	lastId = NaN;
+	constructor(id, name, color, age) {
 		this.id = id;
 		this.name = name;
 		this.color = color;
 		this.age = age;
-		this.image = image;
 	}
 
 	static fromSnapshot(snapshot) {
 		const data = snapshot.val();
-		return new Character(
-			snapshot.key,
-			data.name,
-			data.color,
-			data.age,
-			data.image
-		);
+		return new Character(snapshot.key, data.name, data.color, data.age);
 	}
 
 	toFirebaseObject() {
@@ -25,7 +20,6 @@ class Character {
 			name: this.name,
 			color: this.color,
 			age: this.age,
-			image: this.image,
 		};
 	}
 
@@ -57,7 +51,8 @@ class Character {
 	}
 
 	async save() {
-		const characterRef = ref(db, `characters/${this.id}`);
+		updateId();
+		const characterRef = ref(db, `characters/${getLastId()}`);
 		await set(characterRef, this.toFirebaseObject());
 	}
 
