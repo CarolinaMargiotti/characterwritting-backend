@@ -1,15 +1,6 @@
-const {
-	db,
-	ref,
-	storageRef,
-	set,
-	get,
-	remove,
-	update,
-	storage,
-	uploadBytes,
-} = require("../database");
+const { db, ref, set, get, remove, update } = require("../database");
 const { getLastId, updateId } = require("./UtilModel");
+const { uploadSingleImage } = require("../util/imageHandle");
 
 class Character {
 	lastId = NaN;
@@ -46,9 +37,11 @@ class Character {
 	static async getAll() {
 		const charactersRef = ref(db, `characters`);
 		const snapshot = await get(charactersRef);
+
 		if (!snapshot.exists()) {
 			throw new Error("No characters found");
 		}
+
 		const characters = [];
 		snapshot.forEach((childSnapshot) => {
 			characters.push(Character.fromSnapshot(childSnapshot));
@@ -66,22 +59,7 @@ class Character {
 		const id = getLastId();
 		const characterRef = ref(db, `characters/${id}`);
 		await set(characterRef, this.toFirebaseObject());
-
-		//upload image
-		const characterStorageRef = storageRef(
-			storage,
-			`characters/${this.image.originalname}`
-		);
-
-		await uploadBytes(characterStorageRef, this.image.buffer, {
-			contentType: this.image.mimetype,
-		})
-			.then((snapshot) => {
-				console.log("uploaded file", snapshot);
-			})
-			.catch((error) => {
-				console.log("error: ", error);
-			});
+		await uploadSingleImage(this.image, id, "characters");
 	}
 
 	async updateCharacter() {

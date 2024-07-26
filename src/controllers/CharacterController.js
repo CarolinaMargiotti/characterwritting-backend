@@ -13,10 +13,8 @@ class CharacterController {
 				file
 			);
 			await newCharacter.save();
-			console.log("deu certo");
 			res.status(200).json("salvo com sucesso");
 		} catch (error) {
-			console.log(error.message);
 			res.status(400).json({ error: error.message });
 		}
 	}

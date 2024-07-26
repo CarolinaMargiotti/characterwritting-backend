@@ -9,9 +9,9 @@ const {
 	remove,
 	update,
 } = require("firebase/database");
+
 const firebaseStorage = require("firebase/storage");
-const getStorage = firebaseStorage.getStorage;
-const uploadBytes = firebaseStorage.uploadBytes;
+const { getStorage, uploadBytes } = firebaseStorage;
 const storageRef = firebaseStorage.ref;
 
 require("dotenv").config();
