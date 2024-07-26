@@ -3,7 +3,11 @@ const { CharacterController } = require("../controllers");
 const { create, getCharacter, deleteCharacter, updateCharacter, getAll } =
 	new CharacterController();
 
-router.post("/create", create);
+const multer = require("multer");
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
+
+router.post("/create", upload.single("image"), create);
 
 router.get("/get", getCharacter);
 

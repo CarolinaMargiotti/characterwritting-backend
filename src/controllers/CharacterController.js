@@ -3,11 +3,20 @@ const { CharacterModel } = require("../models");
 class CharacterController {
 	async create(req, res) {
 		let { name, age, color } = req.body;
+		const file = req.file;
 		try {
-			const newCharacter = new CharacterModel(null, name, color, age);
+			const newCharacter = new CharacterModel(
+				null,
+				name,
+				color,
+				age,
+				file
+			);
 			await newCharacter.save();
+			console.log("deu certo");
 			res.status(200).json("salvo com sucesso");
 		} catch (error) {
+			console.log(error.message);
 			res.status(400).json({ error: error.message });
 		}
 	}

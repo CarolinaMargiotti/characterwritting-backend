@@ -1,13 +1,24 @@
-const { db, ref, set, get, remove, update } = require("../database");
+const {
+	db,
+	ref,
+	storageRef,
+	set,
+	get,
+	remove,
+	update,
+	storage,
+	uploadBytes,
+} = require("../database");
 const { getLastId, updateId } = require("./UtilModel");
 
 class Character {
 	lastId = NaN;
-	constructor(id, name, color, age) {
+	constructor(id, name, color, age, image) {
 		this.id = id;
 		this.name = name;
 		this.color = color;
 		this.age = age;
+		this.image = image;
 	}
 
 	static fromSnapshot(snapshot) {
@@ -52,8 +63,25 @@ class Character {
 
 	async save() {
 		updateId();
-		const characterRef = ref(db, `characters/${getLastId()}`);
+		const id = getLastId();
+		const characterRef = ref(db, `characters/${id}`);
 		await set(characterRef, this.toFirebaseObject());
+
+		//upload image
+		const characterStorageRef = storageRef(
+			storage,
+			`characters/${this.image.originalname}`
+		);
+
+		await uploadBytes(characterStorageRef, this.image.buffer, {
+			contentType: this.image.mimetype,
+		})
+			.then((snapshot) => {
+				console.log("uploaded file", snapshot);
+			})
+			.catch((error) => {
+				console.log("error: ", error);
+			});
 	}
 
 	async updateCharacter() {

@@ -9,7 +9,11 @@ const {
 	remove,
 	update,
 } = require("firebase/database");
-const { getStorage } = require("firebase/storage");
+const firebaseStorage = require("firebase/storage");
+const getStorage = firebaseStorage.getStorage;
+const uploadBytes = firebaseStorage.uploadBytes;
+const storageRef = firebaseStorage.ref;
+
 require("dotenv").config();
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -31,4 +35,15 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const storage = getStorage(app);
 
-module.exports = { db, storage, ref, set, child, get, remove, update };
+module.exports = {
+	db,
+	storage,
+	ref,
+	set,
+	child,
+	get,
+	remove,
+	update,
+	uploadBytes,
+	storageRef,
+};
