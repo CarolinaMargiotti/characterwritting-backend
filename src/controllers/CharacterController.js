@@ -34,13 +34,8 @@ class CharacterController {
 	async getAll(req, res) {
 		try {
 			const characters = await CharacterModel.getAll();
-			const charactersDictionary = {};
 
-			characters.forEach((item) => {
-				charactersDictionary[item.id] = item;
-			});
-
-			res.status(200).json(charactersDictionary);
+			res.status(200).json(characters);
 		} catch (error) {
 			res.status(400).json({ error: error.message });
 		}

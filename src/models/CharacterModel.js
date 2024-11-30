@@ -14,7 +14,7 @@ class Character {
 
 	static fromSnapshot(snapshot) {
 		const data = snapshot.val();
-		return new Character(snapshot.key, data.name, data.color, data.age);
+		return new Character(snapshot.key, data.name, data.color, data.age, data.image);
 	}
 
 	toFirebaseObject() {
@@ -22,6 +22,7 @@ class Character {
 			name: this.name,
 			color: this.color,
 			age: this.age,
+			image: this.image
 		};
 	}
 
@@ -31,7 +32,9 @@ class Character {
 		if (!snapshot.exists()) {
 			throw new Error("Character not found");
 		}
-		return Character.fromSnapshot(snapshot);
+		const character =  this.fromSnapshot(snapshot);
+
+		return character;
 	}
 
 	static async getAll() {
@@ -42,11 +45,7 @@ class Character {
 			throw new Error("No characters found");
 		}
 
-		const characters = [];
-		snapshot.forEach((childSnapshot) => {
-			characters.push(Character.fromSnapshot(childSnapshot));
-		});
-		return characters;
+		return snapshot.val();
 	}
 
 	static async deleteCharacter(id) {
@@ -58,9 +57,10 @@ class Character {
 		updateId();
 		const id = getLastId();
 		const characterRef = ref(db, `characters/${id}`);
-		await set(characterRef, this.toFirebaseObject());
+		const downloadUrl = await uploadBase64ToFirebase(`characters/${id}`,this.image.base64, this.image.type);
+		this.image = downloadUrl;
 
-		await uploadBase64ToFirebase( `characters/${id}.png`,this.image.base64, this.image.type);
+		await set(characterRef, this.toFirebaseObject());
 	}
 
 	async updateCharacter() {
