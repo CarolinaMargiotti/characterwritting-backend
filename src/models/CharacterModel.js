@@ -1,6 +1,6 @@
 const { db, ref, set, get, remove, update } = require("../database");
 const { getLastId, updateId } = require("./UtilModel");
-const { uploadSingleImage } = require("../util/imageHandle");
+const { uploadBase64ToFirebase } = require("../util/imageHandle");
 
 class Character {
 	lastId = NaN;
@@ -59,7 +59,8 @@ class Character {
 		const id = getLastId();
 		const characterRef = ref(db, `characters/${id}`);
 		await set(characterRef, this.toFirebaseObject());
-		await uploadSingleImage(this.image, id, "characters");
+
+		await uploadBase64ToFirebase( `characters/${id}.png`,this.image.base64, this.image.type);
 	}
 
 	async updateCharacter() {

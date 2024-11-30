@@ -11,7 +11,7 @@ const {
 } = require("firebase/database");
 
 const firebaseStorage = require("firebase/storage");
-const { getStorage, uploadBytes } = firebaseStorage;
+const { getStorage, uploadString, getDownloadURL } = firebaseStorage;
 const storageRef = firebaseStorage.ref;
 
 require("dotenv").config();
@@ -44,6 +44,7 @@ module.exports = {
 	get,
 	remove,
 	update,
-	uploadBytes,
+	uploadString,
 	storageRef,
+	getDownloadURL
 };
