@@ -19,6 +19,7 @@ class Character {
 
 	toFirebaseObject() {
 		return {
+			id: this.id,
 			name: this.name,
 			color: this.color,
 			age: this.age,
@@ -56,6 +57,7 @@ class Character {
 	async save() {
 		updateId();
 		const id = getLastId();
+		this.id = id;
 		const characterRef = ref(db, `characters/${id}`);
 		const downloadUrl = await uploadBase64ToFirebase(`characters/${id}`,this.image.base64, this.image.type);
 		this.image = downloadUrl;
