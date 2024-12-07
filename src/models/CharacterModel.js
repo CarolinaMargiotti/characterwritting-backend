@@ -2,7 +2,6 @@ const { db, ref, set, get, remove, update, push } = require("../database");
 const { uploadBase64ToFirebase } = require("../util/imageHandle");
 
 class Character {
-	lastId = NaN;
 	constructor(id, name, color, age, image) {
 		this.id = id;
 		this.name = name;
