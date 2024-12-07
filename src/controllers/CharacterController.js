@@ -4,6 +4,8 @@ class CharacterController {
 	async create(req, res) {
 		let { name, age, color,image } = req.body;
 
+		if(!name || !color) res.status(402).json({error:"name or color missing"})
+
 		try {
 			const newCharacter = new CharacterModel(
 				null,
@@ -14,7 +16,7 @@ class CharacterController {
 			);
 
 			await newCharacter.save();
-			res.status(200).json("salvo com sucesso");
+			res.status(200).json("saved successfully");
 		} catch (error) {
 			res.status(402).json({ error: error.message });
 		}
@@ -22,6 +24,7 @@ class CharacterController {
 
 	async getCharacter(req, res) {
 		let { id } = req.body;
+		if(!id) res.status(400).json({error: 'id missing'})
 
 		try {
 			const character = await CharacterModel.getById(id);
@@ -43,6 +46,7 @@ class CharacterController {
 
 	async deleteCharacter(req, res) {
 		let { id } = req.body;
+		if (!id) res.status(400).json({ error: "id missing" });
 
 		try {
 			await CharacterModel.deleteCharacter(id);
@@ -54,6 +58,8 @@ class CharacterController {
 
 	async updateCharacter(req, res) {
 		let { id, name, age, color, image } = req.body;
+		if (!id||!name||!color) res.status(400).json({ error: "id, name or color missing" });
+
 		try {
 			const characterUpdated = new CharacterModel(
 				id,
@@ -63,7 +69,7 @@ class CharacterController {
 				image
 			);
 			await characterUpdated.updateCharacter();
-			res.status(200).json("atualizado com sucesso");
+			res.status(200).json("updated successfully");
 		} catch (error) {
 			res.status(400).json({ error: error.message });
 		}
