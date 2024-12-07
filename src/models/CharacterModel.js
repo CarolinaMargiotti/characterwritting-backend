@@ -2,17 +2,16 @@ const { db, ref, set, get, remove, update, push } = require("../database");
 const { uploadBase64ToFirebase } = require("../util/imageHandle");
 
 class Character {
-	constructor(id, name, color, age, image) {
+	constructor(id, name, color, image) {
 		this.id = id;
 		this.name = name;
 		this.color = color;
-		this.age = age;
 		this.image = image;
 	}
 
 	static fromSnapshot(snapshot) {
 		const data = snapshot.val();
-		return new Character(snapshot.key, data.name, data.color, data.age, data.image);
+		return new Character(snapshot.key, data.name, data.color, data.image);
 	}
 
 	toFirebaseObject() {
@@ -20,7 +19,6 @@ class Character {
 			id: this.id,
 			name: this.name,
 			color: this.color,
-			age: this.age,
 			image: this.image
 		};
 	}

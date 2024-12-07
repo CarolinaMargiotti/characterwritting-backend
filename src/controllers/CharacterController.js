@@ -2,7 +2,7 @@ const { CharacterModel } = require("../models");
 
 class CharacterController {
 	async create(req, res) {
-		let { name, age, color,image } = req.body;
+		let { name, color,image } = req.body;
 
 		if(!name || !color) res.status(402).json({error:"name or color missing"})
 
@@ -11,7 +11,6 @@ class CharacterController {
 				null,
 				name,
 				color,
-				age,
 				image||null
 			);
 
@@ -57,7 +56,7 @@ class CharacterController {
 	}
 
 	async updateCharacter(req, res) {
-		let { id, name, age, color, image } = req.body;
+		let { id, name, color, image } = req.body;
 		if (!id||!name||!color) res.status(400).json({ error: "id, name or color missing" });
 
 		try {
@@ -65,7 +64,6 @@ class CharacterController {
 				id,
 				name,
 				color,
-				age,
 				image
 			);
 			await characterUpdated.updateCharacter();
