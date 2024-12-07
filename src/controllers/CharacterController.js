@@ -10,7 +10,7 @@ class CharacterController {
 				name,
 				color,
 				age,
-				image
+				image||null
 			);
 
 			await newCharacter.save();

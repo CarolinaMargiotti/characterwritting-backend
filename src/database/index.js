@@ -8,6 +8,7 @@ const {
 	get,
 	remove,
 	update,
+	push
 } = require("firebase/database");
 
 const firebaseStorage = require("firebase/storage");
@@ -46,5 +47,6 @@ module.exports = {
 	update,
 	uploadString,
 	storageRef,
-	getDownloadURL
+	getDownloadURL,
+	push
 };

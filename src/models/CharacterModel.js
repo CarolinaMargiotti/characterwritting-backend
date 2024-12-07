@@ -1,5 +1,4 @@
-const { db, ref, set, get, remove, update } = require("../database");
-const { getLastId, updateId } = require("./UtilModel");
+const { db, ref, set, get, remove, update, push } = require("../database");
 const { uploadBase64ToFirebase } = require("../util/imageHandle");
 
 class Character {
@@ -55,14 +54,20 @@ class Character {
 	}
 
 	async save() {
-		updateId();
-		const id = getLastId();
-		this.id = id;
-		const characterRef = ref(db, `characters/${id}`);
-		const downloadUrl = await uploadBase64ToFirebase(`characters/${id}`,this.image.base64, this.image.type);
-		this.image = downloadUrl;
+		const characterRef = ref(db, `characters`);
+		const newRef = push(characterRef);
+		this.id = newRef.key
 
-		await set(characterRef, this.toFirebaseObject());
+		if(this.image){
+			const downloadUrl = await uploadBase64ToFirebase(
+				`characters/${this.id}`,
+				this.image.base64,
+				this.image.type
+			);
+			this.image = downloadUrl;
+		}
+
+		await set(newRef, this.toFirebaseObject());
 	}
 
 	async updateCharacter() {
