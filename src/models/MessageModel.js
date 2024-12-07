@@ -52,7 +52,7 @@ class Message {
 		return character;
 	}
 
-	static async getAll() {
+	async getAll() {
 		const messagesRef = ref(db, this.messagePath());
 		const snapshot = await get(messagesRef);
 

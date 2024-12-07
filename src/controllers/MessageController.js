@@ -43,7 +43,16 @@ class MessageController {
 
 	async getAll(req, res) {
 		try {
-			const messages = await MessageModel.getAll();
+			const {sceneId, chapterId, bookId} = req.query;
+			const getMessages = new MessageModel(
+				null,
+				null,
+				null,
+				sceneId,
+				chapterId,
+				bookId
+			);
+			const messages = await getMessages.getAll();
 
 			res.status(200).json(messages);
 		} catch (error) {
