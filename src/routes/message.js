@@ -18,6 +18,7 @@ router.delete("/delete", validateId, deleteMessage);
 
 router.put(
 	"/update",
+	validateId,
 	validateMessageAllData,
 	validateCharacterExists,
 	updateMessage

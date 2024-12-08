@@ -63,9 +63,11 @@ class MessageController {
 	}
 
 	async updateMessage(req, res) {
+		let { id, characterId, message,  } = req.body;
+
 		try {
 			const messageUpdated = new MessageModel(
-				messageId,
+				id,
 				characterId,
 				message,
 				1,
