@@ -34,8 +34,10 @@ class MessageController {
 	async getAll(req, res) {
 		try {
 			const { chapterId, bookId } = req.query;
+
 			const getScenes = new SceneModel(
 				null,
+				0,
 				chapterId,
 				bookId,
                 []

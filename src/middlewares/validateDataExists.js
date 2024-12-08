@@ -11,4 +11,15 @@ async function validateCharacterExists(req, res, next){
     }
 }
 
-module.exports = {validateCharacterExists}
+async function validateCharactersExists(req,res,next){
+    const { characterIds } = req.body;
+
+    try {
+        await CharacterModel.getCharacters(characterIds);
+        next();
+    } catch (error) {
+        res.status(400).json({ error: error.message });
+    }
+}
+
+module.exports = { validateCharacterExists, validateCharactersExists };

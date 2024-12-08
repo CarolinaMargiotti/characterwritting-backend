@@ -45,6 +45,28 @@ class Character {
 		return snapshot.val();
 	}
 
+	static async getCharacters(entries) {
+		const charactersRef = ref(db, `characters`);
+
+		try {
+			const snapshot = await get(query(charactersRef, orderByKey()));
+
+			if (snapshot.exists()) {
+				const data = snapshot.val();
+				const missingEntries = entries.filter(entry => !(entry in data));
+				if (missingEntries.length === 0) {
+					return data;
+				} else {
+					throw new Error("Missing characters: ", missingEntries)
+				}
+			} else {
+				throw new Error("Missing characters: ", missingEntries);
+			}
+		} catch (error) {
+			throw new Error(error.message);
+		}
+	}
+
 	static async deleteCharacter(id) {
 		const characterRef = ref(db, `characters/${id}`);
 		await remove(characterRef);

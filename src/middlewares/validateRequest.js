@@ -22,6 +22,18 @@ function validateCharacterAllData(req,res,next){
 	next();
 }
 
+function validateSceneAllData(req, res, next){
+	let { position, chapterId, bookId, characterIds } = req.body;
+
+	if(position===undefined|| position===null || !chapterId || !bookId || !characterIds?.length){
+		return res
+			.status(400)
+			.json({ error: "One or more attributes are missing" });
+	}
+
+	next();
+}
+
 function validateId(req, res, next){
 	let {id} = req.body;
 
@@ -37,5 +49,6 @@ function validateId(req, res, next){
 module.exports = {
 	validateMessageAllData,
 	validateCharacterAllData,
+	validateSceneAllData,
 	validateId,
 };

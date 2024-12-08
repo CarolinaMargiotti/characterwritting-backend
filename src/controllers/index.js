@@ -1,4 +1,5 @@
 module.exports = {
 	CharacterController: require("./CharacterController"),
-	MessageController: require("./MessageController")
+	MessageController: require("./MessageController"),
+	SceneController: require("./SceneController")
 };
