@@ -3,28 +3,15 @@ const { MessageModel } = require("../models");
 class MessageController {
 	async create(req, res) {
 		let { characterId, message, sceneId, chapterId, bookId } = req.body;
-		console.log(characterId, message, sceneId, chapterId, bookId);
-
-		if (
-			characterId===null ||
-			!message ||
-			!sceneId ||
-			!chapterId ||
-			!bookId
-		)
-		{
-			res.status(400).json({ error: "attribute/s missing" });
-			return;
-		}
 
 		try {
 			const newMessage = new MessageModel(
 				null,
 				characterId,
-                message,
-                1,
-                1,
-                1
+				message,
+				sceneId,
+				chapterId,
+				bookId
 			);
 
 			await newMessage.save();
@@ -84,12 +71,6 @@ class MessageController {
 	}
 
 	async updateMessage(req, res) {
-		let { messageId, characterId, message, sceneId, chapterId, bookId } = req.body;
-		if (!messageId || !characterId || !message || !sceneId || !chapterId || !bookId){
-			 res.status(400).json({ error: "attribute/s missing" });
-			 return;
-		}
-
 		try {
 			const messageUpdated = new MessageModel(
 				messageId,
