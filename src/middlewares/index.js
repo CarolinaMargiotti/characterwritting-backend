@@ -1,4 +1,4 @@
 module.exports = {
 	ValidateDataExists: require("./validateDataExists"),
-	ValidateMessageRequest: require("./validateRequest"),
+	ValidateRequest: require("./validateRequest"),
 };

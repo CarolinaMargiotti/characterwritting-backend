@@ -23,10 +23,6 @@ class MessageController {
 
 	async getMessage(req, res) {
 		let { id } = req.body;
-		if (!id){
-			 res.status(400).json({ error: "id missing" });
-			 return;
-		}
 
 		try {
 			const message = await MessageModel.getById(id);
@@ -57,10 +53,6 @@ class MessageController {
 
 	async deleteMessage(req, res) {
 		let { id } = req.body;
-		if (!id) {
-			res.status(400).json({ error: "id missing" });
-			return;
-		}
 
 		try {
 			await MessageModel.deleteMessage(id);

@@ -3,17 +3,20 @@ const { CharacterController } = require("../controllers");
 const { create, getCharacter, deleteCharacter, updateCharacter, getAll } =
 	new CharacterController();
 
+const { ValidateRequest } = require("../middlewares");
+const {validateCharacterAllData, validateId} = ValidateRequest;
+
 const multer = require("multer");
 const storage = multer.memoryStorage();
 const upload = multer({ storage: storage });
 
-router.post("/create", upload.single("image"), create);
+router.post("/create", validateCharacterAllData, upload.single("image"), create);
 
-router.get("/get", getCharacter);
+router.get("/get", validateId, getCharacter);
 
 router.get("/getall", getAll);
 
-router.delete("/delete", deleteCharacter);
+router.delete("/delete", validateId, deleteCharacter);
 
-router.put("/update", updateCharacter);
+router.put("/update", validateCharacterAllData, updateCharacter);
 module.exports = router;

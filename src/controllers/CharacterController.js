@@ -4,11 +4,6 @@ class CharacterController {
 	async create(req, res) {
 		let { name, color,image } = req.body;
 
-		if(!name || !color) {
-			res.status(402).json({error:"name or color missing"});
-			return;
-		}
-
 		try {
 			const newCharacter = new CharacterModel(
 				null,
@@ -26,10 +21,6 @@ class CharacterController {
 
 	async getCharacter(req, res) {
 		let { id } = req.body;
-		if(!id) {
-			res.status(400).json({error: 'id missing'});
-			return;
-		}
 
 		try {
 			const character = await CharacterModel.getById(id);
@@ -51,10 +42,6 @@ class CharacterController {
 
 	async deleteCharacter(req, res) {
 		let { id } = req.body;
-		if (!id) {
-			res.status(400).json({ error: "id missing" });
-			return;
-		}
 
 		try {
 			await CharacterModel.deleteCharacter(id);
@@ -66,10 +53,6 @@ class CharacterController {
 
 	async updateCharacter(req, res) {
 		let { id, name, color, image } = req.body;
-		if (!id||!name||!color) {
-			res.status(400).json({ error: "id, name or color missing" });
-			return;
-		}
 
 		try {
 			const characterUpdated = new CharacterModel(
